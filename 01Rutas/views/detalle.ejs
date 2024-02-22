@@ -1,6 +1,6 @@
 <%- include ("template/nav",{tituloWeb:'Nuevo Mono'})%>
     <div class="container">
-        <h1>Detalles del Mono</h1>
+        <h1>Detalles de los Hábitas</h1>
         <% if (error){ %>
             <%= mensaje %>
                 <a href="/monos" class="btn btn-dark btn-block my-2"></a>
@@ -9,9 +9,9 @@
                         <table class="table">
                             <thread>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Tipo</th>
+                                    <th scope="col">id</th>
+                                    <th scope="col">Habitat</th>
+                                    <th scope="col">Clima</th>
                                     <th scope="col">Descripción</th>
                                     <th scope="col">Acción</th>
 
