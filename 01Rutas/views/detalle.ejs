@@ -1,0 +1,117 @@
+<%- include ("template/nav",{tituloWeb:'Nuevo Mono'})%>
+    <div class="container">
+        <h1>Detalles del Mono</h1>
+        <% if (error){ %>
+            <%= mensaje %>
+                <a href="/monos" class="btn btn-dark btn-block my-2"></a>
+                <% } %>
+                    <% if (!error){ %>
+                        <table class="table">
+                            <thread>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Acción</th>
+
+                                </tr>
+                            </thread>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        <%= mono._id %>
+                                    </th>
+                                    <td>
+                                        <%= mono.nombre%>
+                                    </td>
+                                    <td>
+                                        <%= mono.tipo%>
+                                    </td>
+                                    <td>
+                                        <%= mono.descripcion%>
+                                    </td>
+                                    <td>
+                                        <button id="eliminar" class="btn btn-info btn-sm ver-detalles-btn"
+                                            data-id="<%= mono._id %>">Eliminar</button>
+                                        <!-- ... tus otros botones ... -->
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <%}%>
+    </div>
+
+    <script>
+        const btnEliminar = document.getElementById('eliminar');
+        btnEliminar.addEventListener('click', async () => {
+            const id = btnEliminar.dataset.id; // Cambia _id por id
+            try {
+                const response = await fetch(`/monos/${id}`, { // Asegúrate de que la ruta coincida con la ruta del servidor
+                    method: 'DELETE'
+                });
+                const res = await response.json();
+                if (res.estado) {
+                    window.location.href = '/monos'; // Cambia mono por monos
+                } else {
+                    console.error('Error al eliminar:', res.mensaje);
+                }
+            } catch (error) {
+                console.error('Error al intentar eliminar el mono:', error);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+    const editarForm = document.getElementById('editar-form');
+    editarForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const id = editarForm.getAttribute('data-id');
+        const formData = {
+            nombre: document.getElementById('nombreInput').value,
+            tipo: document.getElementById('tipoInput').value,
+            descripcion: document.getElementById('descripcionInput').value,
+        };
+
+        try {
+            const response = await fetch(`/monos/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            const res = await response.json();
+            if (res.estado) {
+                window.location.href = '/monos';
+            } else {
+                console.error('Error al actualizar:', res.mensaje);
+            }
+        } catch (error) {
+            console.error('Error al intentar actualizar el mono:', error);
+        }
+    });
+});
+
+    </script>
+    
+    
+    <!-- Formulario de edición -->
+    <form id="editar-form" data-id="<%= mono._id %>">
+        
+        <% if (!error){ %>
+    <form id="editar" data-id="<%= mono._id %>">
+        <input type="number" value="<%= mono.id %>" class="form-control my-2" name="id" id="idInput" readonly>
+        <input type="text" value="<%= mono.nombre %>" class="form-control my-2" name="nombre" id="nombreInput">
+        <input type="text" value="<%= mono.tipo %>" class="form-control my-2" name="tipo" id="tipoInput">
+        <input type="text" value="<%= mono.descripcion %>" class="form-control my-2" name="descripcion" id="descripcionInput">
+        <button class="btn btn-primary btn-sm" type="submit">Actualizar</button>
+    </form>
+    <button class="btn btn-danger btn-sm" data-id="<%= mono._id %>" >Eliminar</button>
+
+    <% } %>
+    <!-- Agrega un botón para volver a la lista de monos -->
+    <a href="/monos" class="btn btn-secondary
+
+
+    <%- include ("template/footer") %>

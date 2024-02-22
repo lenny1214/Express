@@ -1,0 +1,32 @@
+<%- include("template/nav", {tituloWeb:"Panel de Administración"}) %>
+
+    <div class="container">
+        <h1>CRUD MongoDB</h1>
+        <a class="btn btn-success btn-block my-4" href="/monos/crear">Crear Mono</a>
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Descripción</th>
+                </tr>
+            </thead>
+           <tbody>
+    <% if (arrayMonos.length > 0) { %>
+        <% arrayMonos.forEach(function(mono) { %>
+            <tr>
+                <td><%= mono._id %></td>
+                <td><%= mono.nombre %></td>
+                <td><%= mono.tipo %></td>
+                <td><%= mono.descripcion %></td>
+                <td><a class="btn" href="/monos/<%= mono._id %>">Editar/Eliminar</a></td>
+            </tr>
+        <% }); %>
+    <% } %>
+</tbody>
+        </table>
+    </div>
+
+    <%- include ("template/footer") %>
