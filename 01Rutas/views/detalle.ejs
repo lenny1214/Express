@@ -1,17 +1,17 @@
-<%- include ("template/nav",{tituloWeb:'Nuevo Mono'})%>
+<%- include ("template/nav",{tituloWeb:'Nuevo Movil'})%>
     <div class="container">
         <h1>Detalles de los Hábitas</h1>
         <% if (error){ %>
             <%= mensaje %>
-                <a href="/monos" class="btn btn-dark btn-block my-2"></a>
+                <a href="/moviles" class="btn btn-dark btn-block my-2"></a>
                 <% } %>
                     <% if (!error){ %>
                         <table class="table">
                             <thread>
                                 <tr>
                                     <th scope="col">id</th>
-                                    <th scope="col">Habitat</th>
-                                    <th scope="col">Clima</th>
+                                    <th scope="col">Marca</th>
+                                    <th scope="col">Modelo</th>
                                     <th scope="col">Descripción</th>
                                     <th scope="col">Acción</th>
 
@@ -20,20 +20,20 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">
-                                        <%= mono._id %>
+                                        <%= movil._id %>
                                     </th>
                                     <td>
-                                        <%= mono.nombre%>
+                                        <%= movil.marca%>
                                     </td>
                                     <td>
-                                        <%= mono.tipo%>
+                                        <%= movil.modelo%>
                                     </td>
                                     <td>
-                                        <%= mono.descripcion%>
+                                        <%= movil.descripcion%>
                                     </td>
                                     <td>
                                         <button id="eliminar" class="btn btn-info btn-sm ver-detalles-btn"
-                                            data-id="<%= mono._id %>">Eliminar</button>
+                                            data-id="<%= movil._id %>">Eliminar</button>
                                         <!-- ... tus otros botones ... -->
                                     </td>
 
@@ -48,17 +48,17 @@
         btnEliminar.addEventListener('click', async () => {
             const id = btnEliminar.dataset.id; // Cambia _id por id
             try {
-                const response = await fetch(`/monos/${id}`, { // Asegúrate de que la ruta coincida con la ruta del servidor
+                const response = await fetch(`/moviles/${id}`, { // Asegúrate de que la ruta coincida con la ruta del servidor
                     method: 'DELETE'
                 });
                 const res = await response.json();
                 if (res.estado) {
-                    window.location.href = '/monos'; // Cambia mono por monos
+                    window.location.href = '/moviles'; // Cambia mono por monos
                 } else {
                     console.error('Error al eliminar:', res.mensaje);
                 }
             } catch (error) {
-                console.error('Error al intentar eliminar el mono:', error);
+                console.error('Error al intentar eliminar el móvil:', error);
             }
         });
 
@@ -74,7 +74,7 @@
         };
 
         try {
-            const response = await fetch(`/monos/${id}`, {
+            const response = await fetch(`/moviles/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -83,12 +83,12 @@
             });
             const res = await response.json();
             if (res.estado) {
-                window.location.href = '/monos';
+                window.location.href = '/moviles';
             } else {
                 console.error('Error al actualizar:', res.mensaje);
             }
         } catch (error) {
-            console.error('Error al intentar actualizar el mono:', error);
+            console.error('Error al intentar actualizar el móvil:', error);
         }
     });
 });
@@ -97,21 +97,21 @@
     
     
     <!-- Formulario de edición -->
-    <form id="editar-form" data-id="<%= mono._id %>">
+    <form id="editar-form" data-id="<%= movil._id %>">
         
         <% if (!error){ %>
-    <form id="editar" data-id="<%= mono._id %>">
-        <input type="number" value="<%= mono.id %>" class="form-control my-2" name="id" id="idInput" readonly>
-        <input type="text" value="<%= mono.nombre %>" class="form-control my-2" name="nombre" id="nombreInput">
-        <input type="text" value="<%= mono.tipo %>" class="form-control my-2" name="tipo" id="tipoInput">
-        <input type="text" value="<%= mono.descripcion %>" class="form-control my-2" name="descripcion" id="descripcionInput">
+    <form id="editar" data-id="<%= movil._id %>">
+        <input type="number" value="<%= movil.id %>" class="form-control my-2" name="id" id="idInput" readonly>
+        <input type="text" value="<%= movil.marca %>" class="form-control my-2" name="marca" id="nombreInput">
+        <input type="text" value="<%= movil.modelo %>" class="form-control my-2" name="modelo" id="tipoInput">
+        <input type="text" value="<%= movil.descripcion %>" class="form-control my-2" name="descripcion" id="descripcionInput">
         <button class="btn btn-primary btn-sm" type="submit">Actualizar</button>
     </form>
-    <button class="btn btn-danger btn-sm" data-id="<%= mono._id %>" >Eliminar</button>
+    <button class="btn btn-danger btn-sm" data-id="<%= movil._id %>" >Eliminar</button>
 
     <% } %>
     <!-- Agrega un botón para volver a la lista de monos -->
-    <a href="/monos" class="btn btn-secondary
+    <a href="/moviles" class="btn btn-secondary
 
 
     <%- include ("template/footer") %>

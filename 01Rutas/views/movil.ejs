@@ -1,0 +1,32 @@
+<%- include("template/nav", {tituloWeb:"Panel de Administración"}) %>
+
+    <div class="container">
+        <h1>CRUD MongoDB</h1>
+        <a class="btn btn-success btn-block my-4" href="/moviles/crear">Crear Móvil</a>
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th scope="col">id</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Descripción</th>
+                </tr>
+            </thead>
+           <tbody>
+    <% if (arrayMoviles.length > 0) { %>
+        <% arrayMoviles.forEach(function(movil) { %>
+            <tr>
+                <td><%= movil._id %></td>
+                <td><%= movil.marca %></td>
+                <td><%= movil.modelo %></td>
+                <td><%= movil.descripcion %></td>
+                <td><a class="btn" href="/moviles/<%= movil._id %>">Editar/Eliminar</a></td>
+            </tr>
+        <% }); %>
+    <% } %>
+</tbody>
+        </table>
+    </div>
+
+    <%- include ("template/footer") %>

@@ -1,11 +1,11 @@
-<%- include ("template/nav",{tituloWeb:'Nuevo Mono'})%>
+<%- include ("template/nav",{tituloWeb:'Nuevo Movil'})%>
 
     <div class="contariner">
-        <h2>Crear nuevo Mono</h2>
-        <form action="/monos" class="my-2" method="POST">
+        <h2>Crear nuevo Móvil</h2>
+        <form action="/moviles" class="my-2" method="POST">
             <input type="number" placeholder="Id" class="form-control my-2" name="id">
-            <input type="text" placeholder="Nombre" class="form-control my-2" name="nombre">
-            <input type="text" placeholder="Tipo" class="form-control my-2" name="tipo">
+            <input type="text" placeholder="Marca" class="form-control my-2" name="marca">
+            <input type="text" placeholder="Modelo" class="form-control my-2" name="modelo">
             <input type="text" placeholder="Descripción" class="form-control my-2" name="descripcion">
             <button type="submit" class="btn btn-dark btn-block">
                 Agregar

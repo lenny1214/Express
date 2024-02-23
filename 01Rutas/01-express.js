@@ -22,12 +22,12 @@ app.set("views", __dirname + "/views/");
 
 //Routes
 app.use('/', require('./router/rutas'));
-app.use('/monos', require('./router/monos'))
+app.use('/moviles', require('./router/moviles'))
 mongoose.set('strictQuery', false);
 //Conexión a BBDD
 const user = process.env.DB_USER || 'lenny';
 const password = process.env.DB_PASSWORD || 'dY1k0HYElVn8BhF8';
-const dbname = process.env.DB_NAME || 'monos';
+const dbname = process.env.DB_NAME || 'moviles';
 const uri=`mongodb+srv://${user}:${password}@lenny.jttodps.mongodb.net/${dbname}?retryWrites=true&w=majority`;
 mongoose.connect(uri)
     .then(()=>console.log('Base de datos conectada'))

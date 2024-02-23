@@ -3,16 +3,16 @@
 const mongoose = require ('mongoose');
 const Schema = mongoose.Schema;
 
-const monosSchema = new Schema({
+const movilesSchema = new Schema({
     id: String,
-    nombre: String,
-    tipo: String,
+    marca: String,
+    modelo: String,
     descripcion: String
 })
 
-const Mono = mongoose.model('Mono', monosSchema,"monos");
+const Movil = mongoose.model('Movil', movilesSchema,"moviles");
 //Mono -- Modelo
 //monos bbdd
 
-module.exports=Mono;
+module.exports=Movil;
 
