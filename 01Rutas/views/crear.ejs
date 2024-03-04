@@ -2,7 +2,7 @@
 
 <div class="container">
     <h2>Crear nuevo Móvil</h2>
-    <form action="/moviles" class="my-2" method="POST">
+    <form id="crearForm" action="/moviles" class="my-2" method="POST">
         <input type="text" placeholder="Marca" class="form-control my-2" name="marca">
         <input type="text" placeholder="Modelo" class="form-control my-2" name="modelo">
         <input type="text" placeholder="Descripción" class="form-control my-2" name="descripcion">
@@ -11,3 +11,60 @@
 </div>
 
 <%- include ("template/footer")%>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const crearForm = document.getElementById('crearForm');
+
+        crearForm.addEventListener('submit', (event) => {
+            if (!validarFormulario()) {
+                event.preventDefault(); // Evita que el formulario se envíe si la validación falla
+            }
+        });
+
+        function validarFormulario() {
+            const marcaInput = crearForm.querySelector('input[name="marca"]');
+            const modeloInput = crearForm.querySelector('input[name="modelo"]');
+            const descripcionInput = crearForm.querySelector('input[name="descripcion"]');
+            let formularioValido = true;
+
+            // Validar que los campos no estén vacíos
+            if (marcaInput.value.trim() === '') {
+                mostrarError(marcaInput, 'Por favor ingresa la marca');
+                formularioValido = false;
+            } else {
+                ocultarError(marcaInput);
+            }
+
+            if (modeloInput.value.trim() === '') {
+                mostrarError(modeloInput, 'Por favor ingresa el modelo');
+                formularioValido = false;
+            } else {
+                ocultarError(modeloInput);
+            }
+
+            if (descripcionInput.value.trim() === '') {
+                mostrarError(descripcionInput, 'Por favor ingresa la descripción');
+                formularioValido = false;
+            } else {
+                ocultarError(descripcionInput);
+            }
+
+            return formularioValido;
+        }
+
+        function mostrarError(input, mensaje) {
+            const errorSpan = document.createElement('span');
+            errorSpan.className = 'text-danger';
+            errorSpan.textContent = mensaje;
+            input.parentNode.appendChild(errorSpan);
+        }
+
+        function ocultarError(input) {
+            const errorSpan = input.parentNode.querySelector('.text-danger');
+            if (errorSpan) {
+                errorSpan.remove();
+            }
+        }
+    });
+</script>

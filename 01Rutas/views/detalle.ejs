@@ -64,29 +64,81 @@
         editarForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             const id = editarForm.getAttribute('data-id');
-            const formData = {
-                marca: document.getElementById('nombreInput').value,
-                modelo: document.getElementById('tipoInput').value,
-                descripcion: document.getElementById('descripcionInput').value,
-            };
+            
+            // Validar el formulario antes de enviarlo
+            if (validarFormulario()) {
+                const formData = {
+                    marca: document.getElementById('nombreInput').value,
+                    modelo: document.getElementById('tipoInput').value,
+                    descripcion: document.getElementById('descripcionInput').value,
+                };
 
-            try {
-                const response = await fetch(`/moviles/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                });
-                const res = await response.json();
-                if (res.estado) {
-                    window.location.href = '/moviles';
-                } else {
-                    console.error('Error al actualizar:', res.mensaje);
+                try {
+                    const response = await fetch(`/moviles/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData),
+                    });
+                    const res = await response.json();
+                    if (res.estado) {
+                        window.location.href = '/moviles';
+                    } else {
+                        console.error('Error al actualizar:', res.mensaje);
+                    }
+                } catch (error) {
+                    console.error('Error al intentar actualizar el móvil:', error);
                 }
-            } catch (error) {
-                console.error('Error al intentar actualizar el móvil:', error);
             }
         });
+
+        function validarFormulario() {
+            const marcaInput = document.getElementById('nombreInput');
+            const modeloInput = document.getElementById('tipoInput');
+            const descripcionInput = document.getElementById('descripcionInput');
+            let formularioValido = true;
+
+            // Validar que los campos no estén vacíos
+            if (marcaInput.value.trim() === '') {
+                mostrarError(marcaInput, 'Por favor ingresa la marca');
+                formularioValido = false;
+            } else {
+                ocultarError(marcaInput);
+            }
+
+            if (modeloInput.value.trim() === '') {
+                mostrarError(modeloInput, 'Por favor ingresa el modelo');
+                formularioValido = false;
+            } else {
+                ocultarError(modeloInput);
+            }
+
+            if (descripcionInput.value.trim() === '') {
+                mostrarError(descripcionInput, 'Por favor ingresa la descripción');
+                formularioValido = false;
+            } else {
+                ocultarError(descripcionInput);
+            }
+
+            return formularioValido;
+        }
+
+        function mostrarError(input, mensaje) {
+            // Si ya hay un mensaje de error, no se muestra otro
+            if (!input.nextElementSibling || input.nextElementSibling.className !== 'error-message') {
+                const errorSpan = document.createElement('span');
+                errorSpan.className = 'error-message';
+                errorSpan.textContent = mensaje;
+                input.parentNode.appendChild(errorSpan);
+            }
+        }
+
+        function ocultarError(input) {
+            const errorSpan = input.parentNode.querySelector('.error-message');
+            if (errorSpan) {
+                errorSpan.remove();
+            }
+        }
     });
 </script>
