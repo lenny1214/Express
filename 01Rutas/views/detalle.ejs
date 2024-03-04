@@ -1,59 +1,57 @@
-<%- include ("template/nav",{tituloWeb:'Nuevo Movil'})%>
-    <div class="container">
-        <h1>Detalles de los Hábitas</h1>
-        <% if (error){ %>
-            <%= mensaje %>
-                <a href="/moviles" class="btn btn-dark btn-block my-2"></a>
-                <% } %>
-                    <% if (!error){ %>
-                        <table class="table">
-                            <thread>
-                                <tr>
-                                    <th scope="col">id</th>
-                                    <th scope="col">Marca</th>
-                                    <th scope="col">Modelo</th>
-                                    <th scope="col">Descripción</th>
-                                    <th scope="col">Acción</th>
+<%- include ("template/nav",{tituloWeb:'Detalles del Móvil'}) %>
 
-                                </tr>
-                            </thread>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        <%= movil._id %>
-                                    </th>
-                                    <td>
-                                        <%= movil.marca%>
-                                    </td>
-                                    <td>
-                                        <%= movil.modelo%>
-                                    </td>
-                                    <td>
-                                        <%= movil.descripcion%>
-                                    </td>
-                                    <td>
-                                        <button id="eliminar" class="btn btn-info btn-sm ver-detalles-btn"
-                                            data-id="<%= movil._id %>">Eliminar</button>
-                                        <!-- ... tus otros botones ... -->
-                                    </td>
+<div class="container">
+    <h1>Detalles del Móvil</h1>
+    <% if (error){ %>
+        <%= mensaje %>
+        <a href="/moviles" class="btn btn-dark btn-block my-2">Volver a la lista</a>
+    <% } %>
+    <% if (!error){ %>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><%= movil._id %></th>
+                    <td><%= movil.marca %></td>
+                    <td><%= movil.modelo %></td>
+                    <td><%= movil.descripcion %></td>
+                    <td>
+                        <form id="editar-form" data-id="<%= movil._id %>">
+                            <input type="text" value="<%= movil.marca %>" class="form-control my-2" name="marca" id="nombreInput">
+                            <input type="text" value="<%= movil.modelo %>" class="form-control my-2" name="modelo" id="tipoInput">
+                            <input type="text" value="<%= movil.descripcion %>" class="form-control my-2" name="descripcion" id="descripcionInput">
+                            <button class="btn btn-primary btn-sm" type="submit">Actualizar</button>
+                        </form>
+                        <button id="eliminar" class="btn btn-danger btn-sm" data-id="<%= movil._id %>">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    <% } %>
+</div>
 
-                                </tr>
-                            </tbody>
-                        </table>
-                        <%}%>
-    </div>
+<%- include ("template/footer") %>
 
-    <script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
         const btnEliminar = document.getElementById('eliminar');
         btnEliminar.addEventListener('click', async () => {
-            const id = btnEliminar.dataset.id; // Cambia _id por id
+            const id = btnEliminar.dataset.id;
             try {
-                const response = await fetch(`/moviles/${id}`, { // Asegúrate de que la ruta coincida con la ruta del servidor
+                const response = await fetch(`/moviles/${id}`, {
                     method: 'DELETE'
                 });
                 const res = await response.json();
                 if (res.estado) {
-                    window.location.href = '/moviles'; // Cambia mono por monos
+                    window.location.href = '/moviles';
                 } else {
                     console.error('Error al eliminar:', res.mensaje);
                 }
@@ -62,56 +60,33 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
-    const editarForm = document.getElementById('editar-form');
-    editarForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const id = editarForm.getAttribute('data-id');
-        const formData = {
-            nombre: document.getElementById('nombreInput').value,
-            tipo: document.getElementById('tipoInput').value,
-            descripcion: document.getElementById('descripcionInput').value,
-        };
+        const editarForm = document.getElementById('editar-form');
+        editarForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const id = editarForm.getAttribute('data-id');
+            const formData = {
+                marca: document.getElementById('nombreInput').value,
+                modelo: document.getElementById('tipoInput').value,
+                descripcion: document.getElementById('descripcionInput').value,
+            };
 
-        try {
-            const response = await fetch(`/moviles/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-            const res = await response.json();
-            if (res.estado) {
-                window.location.href = '/moviles';
-            } else {
-                console.error('Error al actualizar:', res.mensaje);
+            try {
+                const response = await fetch(`/moviles/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+                const res = await response.json();
+                if (res.estado) {
+                    window.location.href = '/moviles';
+                } else {
+                    console.error('Error al actualizar:', res.mensaje);
+                }
+            } catch (error) {
+                console.error('Error al intentar actualizar el móvil:', error);
             }
-        } catch (error) {
-            console.error('Error al intentar actualizar el móvil:', error);
-        }
+        });
     });
-});
-
-    </script>
-    
-    
-    <!-- Formulario de edición -->
-    <form id="editar-form" data-id="<%= movil._id %>">
-        
-        <% if (!error){ %>
-    <form id="editar" data-id="<%= movil._id %>">
-        <input type="number" value="<%= movil.id %>" class="form-control my-2" name="id" id="idInput" readonly>
-        <input type="text" value="<%= movil.marca %>" class="form-control my-2" name="marca" id="nombreInput">
-        <input type="text" value="<%= movil.modelo %>" class="form-control my-2" name="modelo" id="tipoInput">
-        <input type="text" value="<%= movil.descripcion %>" class="form-control my-2" name="descripcion" id="descripcionInput">
-        <button class="btn btn-primary btn-sm" type="submit">Actualizar</button>
-    </form>
-    <button class="btn btn-danger btn-sm" data-id="<%= movil._id %>" >Eliminar</button>
-
-    <% } %>
-    <!-- Agrega un botón para volver a la lista de monos -->
-    <a href="/moviles" class="btn btn-secondary
-
-
-    <%- include ("template/footer") %>
+</script>

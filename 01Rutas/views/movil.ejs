@@ -11,6 +11,7 @@
                 <th scope="col">Modelo</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Imagen</th> <!-- Nuevo encabezado para la imagen -->
+                <th scope="col">Acción</th>
             </tr>
         </thead>
         <tbody>
@@ -21,7 +22,6 @@
                         <td><%= movil.marca %></td>
                         <td><%= movil.modelo %></td>
                         <td><%= movil.descripcion %></td>
-                        <!-- Nuevo código para mostrar la imagen -->
                         <td>
                             <% if (movil.image) { %>
                                 <img src="<%= movil.image %>" alt="Imagen de móvil" style="max-width: 100px;">
@@ -29,8 +29,7 @@
                                 Sin imagen
                             <% } %>
                         </td>
-                        <!-- Fin del código para mostrar la imagen -->
-                        <td><a class="btn" href="/moviles/<%= movil._id %>">Editar/Eliminar</a></td>
+                        <td><a class="btn btn-info" href="/moviles/<%= movil._id %>">Editar</a></td>
                     </tr>
                 <% }); %>
             <% } %>
